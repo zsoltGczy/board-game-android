@@ -12,8 +12,9 @@ buildscript {
 
         // App dependencies
         activityComposeVersion = '1.4.0'
-        composeVersion = '1.1.0'
+        composeVersion = '1.0.0'
         coreKtxVersion = '1.7.0'
+        coroutinesVersion = '1.5.2'
         coilVersion = '1.4.0'
         composeNavigationVersion = '2.4.1'
         daggerVersion = '2.40.5'
@@ -22,11 +23,15 @@ buildscript {
         gradleVersion = '7.0.4'
         hiltNavigationComposeVersion = '1.0.0'
         jUnitVersion = '4.13.2'
-        kotlinVersion = '1.6.10'
+        kotlinVersion = '1.5.10'
         ktlintVersion = '0.43.2'
         lifecycleRuntimeKtxVersion = '2.4.1'
         logcatVersion = '0.1'
         materialVersion = '1.5.0'
+        moshiVersion = '1.12.0'
+        okHttpVersion = '4.9.3'
+        retrofitVersion = '2.9.0'
+        roomVersion = '2.4.1'
     }
 
     repositories {
