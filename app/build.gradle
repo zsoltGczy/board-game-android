@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -61,7 +63,12 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes true
+}
+
 dependencies {
+    kapt "com.google.dagger:hilt-compiler:$rootProject.daggerVersion"
 
     implementation "androidx.activity:activity-compose:$rootProject.activityComposeVersion"
     implementation "androidx.compose.material:material:$rootProject.composeVersion"
@@ -70,6 +77,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$rootProject.coreKtxVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.lifecycleRuntimeKtxVersion"
     implementation "com.google.android.material:material:$rootProject.materialVersion"
+    implementation "com.google.dagger:hilt-android:$rootProject.daggerVersion"
     implementation "com.squareup.logcat:logcat:$rootProject.logcatVersion"
 
     ktlint "com.pinterest:ktlint:$rootProject.ktlintVersion"
