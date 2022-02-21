@@ -55,6 +55,10 @@ android {
     lintOptions {
         disable 'GoogleAppIndexingWarning'
     }
+
+    configurations {
+        ktlint
+    }
 }
 
 dependencies {
@@ -67,10 +71,27 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.lifecycleRuntimeKtxVersion"
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
+    ktlint "com.pinterest:ktlint:$rootProject.ktlintVersion"
+
     debugImplementation "androidx.compose.ui:ui-tooling:$rootProject.composeVersion"
 
     testImplementation "junit:junit:$rootProject.jUnitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.extjUnitVersion"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$rootProject.composeVersion"
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "src/**/*.kt", "--reporter=checkstyle,output=${buildDir}/reports/ktlint.xml"
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "-F", "src/**/*.kt", "--reporter=checkstyle,output=${buildDir}/reports/ktlint.xml"
 }
