@@ -14,6 +14,7 @@ buildscript {
         activityComposeVersion = '1.4.0'
         composeVersion = '1.1.0'
         coreKtxVersion = '1.7.0'
+        coilVersion = '1.4.0'
         daggerVersion = '2.40.5'
         espressoVersion = '3.4.0'
         extjUnitVersion = '1.1.3'
