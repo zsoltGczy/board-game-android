@@ -1,4 +1,4 @@
-package com.gzslt.boardgame.ui.theme
+package com.gzslt.boardgame.main.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
