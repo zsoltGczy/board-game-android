@@ -2,8 +2,10 @@ package com.gzslt.boardgame.main.ui.boardgamelist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gzslt.boardgame.api.util.ConnectionCheckUtil
 import com.gzslt.boardgame.main.model.BoardGameListUiState
 import com.gzslt.boardgame.main.model.BoardGameUiModel
+import com.gzslt.boardgame.service.NetworkService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -12,11 +14,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import logcat.logcat
 import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class BoardGameListViewModel @Inject constructor() : ViewModel() {
+class BoardGameListViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<BoardGameListUiState>(BoardGameListUiState.Loading)
     val uiState: StateFlow<BoardGameListUiState> get() = _uiState
@@ -34,11 +39,15 @@ class BoardGameListViewModel @Inject constructor() : ViewModel() {
     fun fetchBoardGameList() {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = BoardGameListUiState.Loading
-            // TODO check network connection
+            if (!networkService.isConnected()) {
+                _uiState.value = BoardGameListUiState.NetworkError
+                return@launch
+            }
             try {
                 _uiState.value = BoardGameListUiState.Success
                 // TODO fetch from api
             } catch (exception: Exception) {
+                logcat(message = { exception.message ?: "Exception has no message" })
                 _uiState.value = BoardGameListUiState.Error
             }
         }
