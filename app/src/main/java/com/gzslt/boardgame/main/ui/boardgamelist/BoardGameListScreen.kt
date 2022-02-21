@@ -1,42 +1,33 @@
 package com.gzslt.boardgame.main.ui.boardgamelist
 
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.gzslt.boardgame.main.model.BoardGameListUiState
 import com.gzslt.boardgame.main.model.BoardGameUiModel
 
 @Composable
-fun BoardGameListScreen(modifier: Modifier = Modifier) {
+fun BoardGameListScreen(
+    viewModel: BoardGameListViewModel = hiltViewModel(),
+) {
 
-    LazyColumn(modifier) {
-        // TODO
-        items(items = mockBoardGameList) { model ->
-            BoardGameListItem(model) {
-                // TODO mark/unmark on item click
-            }
+    val uiState: BoardGameListUiState by viewModel.uiState.collectAsState(initial = BoardGameListUiState.Loading)
+    val boardGameList: List<BoardGameUiModel> by viewModel.boardGameListFlow.collectAsState(listOf())
+
+    when (uiState) {
+        BoardGameListUiState.Error -> ErrorBody(message = "Something went wrong") {
+            viewModel.fetchBoardGameList()
         }
+        BoardGameListUiState.Loading -> Loading()
+        BoardGameListUiState.NetworkError -> ErrorBody(message = "No internet connection. Turn on wifi or mobile data.") {
+            viewModel.fetchBoardGameList()
+        }
+        BoardGameListUiState.Success -> BoardGameListBody(
+            list = boardGameList,
+            onItemClick = {
+                viewModel.addItemToFavorites(it)
+            }
+        )
     }
 }
-
-@Composable
-@Preview
-private fun BoardGameListScreenPreview() {
-    BoardGameListScreen()
-}
-
-private val mockBoardGameList = listOf(
-    BoardGameUiModel(
-        id = "e61feb10-fae0-45a9-9c79-4133f4121602",
-        name = "Crown of Emara",
-        imageResource = "https://uploads-ssl.webflow.com/61980fb98326045a5690d1df/61dbfe6da3d9865d2eb4510b_crown_of_emara.jpg",
-        true,
-    ),
-    BoardGameUiModel(
-        id = "6a166dcf-988a-4efe-bafc-dba3b319c009",
-        name = "Mars",
-        imageResource = "https://uploads-ssl.webflow.com/61980fb98326045a5690d1df/61dc0037cb8a6f735ee95a96_mars.jpg",
-        false,
-    ),
-)
