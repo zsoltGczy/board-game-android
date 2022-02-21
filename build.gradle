@@ -21,6 +21,7 @@ buildscript {
         kotlinVersion = '1.6.10'
         ktlintVersion = '0.43.2'
         lifecycleRuntimeKtxVersion = '2.4.1'
+        logcatVersion = '0.1'
         materialVersion = '1.5.0'
     }
 
