@@ -42,8 +42,8 @@ class BoardGameListViewModel @Inject constructor(
                 return@launch
             }
             try {
-                _uiState.value = BoardGameListUiState.Success
                 repository.fetchBoardGameList()
+                _uiState.value = BoardGameListUiState.Success
             } catch (exception: Exception) {
                 logcat(message = { exception.message ?: "Exception has no message" })
                 _uiState.value = BoardGameListUiState.Error
