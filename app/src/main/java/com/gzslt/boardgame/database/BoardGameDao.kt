@@ -13,12 +13,9 @@ interface BoardGameDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBoardGameList(boardGameList: List<BoardGameDataModel>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBoardGame(boardGame: BoardGameDataModel)
+    @Query("UPDATE Board_games SET isFavorite = :isFavorite WHERE id = :id ")
+    suspend fun updateBoardGame(id: String, isFavorite: Boolean)
 
     @Query("SELECT * FROM Board_games ORDER BY isFavorite = 0, name ASC")
     fun getBoardGameList(): Flow<List<BoardGameDataModel>>
-
-    @Query("Select * FROM Board_games WHERE id = :id")
-    suspend fun getBoardGame(id: String): BoardGameDataModel
 }

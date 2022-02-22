@@ -51,13 +51,17 @@ class BoardGameListViewModel @Inject constructor(
         }
     }
 
-    fun addItemToFavorites(id: String) {
+    fun rateBoardGameItem(id: String, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = BoardGameListUiState.Loading
-            repository.insertBoardGame(id)
-            // Imitating API call with delay
-            delay(2000)
-            _uiState.value = BoardGameListUiState.Success
+            try {
+                repository.updateBoardGame(id, isFavorite)
+                // Imitating API call with delay
+                delay(2000)
+                _uiState.value = BoardGameListUiState.Success
+            } catch (exception: Exception) {
+                _uiState.value = BoardGameListUiState.Error
+            }
         }
     }
 }

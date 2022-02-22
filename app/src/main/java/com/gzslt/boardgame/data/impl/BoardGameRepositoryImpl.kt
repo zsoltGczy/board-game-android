@@ -24,18 +24,10 @@ class BoardGameRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun insertBoardGame(id: String) {
-        val boardGameDataModel = getBoardGame(id)
-        appDatabase.boardGameDao().insertBoardGame(
-            BoardGameDataModel(
-                id = boardGameDataModel.id,
-                name = boardGameDataModel.name,
-                imageResource = boardGameDataModel.imageResource,
-                isFavorite = !boardGameDataModel.isFavorite
-            )
+    override suspend fun updateBoardGame(id: String, isFavorite: Boolean) {
+        appDatabase.boardGameDao().updateBoardGame(
+            id,
+            !isFavorite,
         )
     }
-
-    private suspend fun getBoardGame(id: String): BoardGameDataModel =
-        appDatabase.boardGameDao().getBoardGame(id)
 }

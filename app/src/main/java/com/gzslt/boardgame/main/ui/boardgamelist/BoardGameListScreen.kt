@@ -25,8 +25,8 @@ fun BoardGameListScreen(
         }
         BoardGameListUiState.Success -> BoardGameListBody(
             list = boardGameList,
-            onItemClick = {
-                viewModel.addItemToFavorites(it)
+            onItemClick = { id, isFavorite ->
+                viewModel.rateBoardGameItem(id, isFavorite)
             }
         )
     }

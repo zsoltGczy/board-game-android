@@ -9,5 +9,5 @@ interface BoardGameRepository {
 
     suspend fun fetchBoardGameList()
 
-    suspend fun insertBoardGame(id: String)
+    suspend fun updateBoardGame(id: String, isFavorite: Boolean)
 }
