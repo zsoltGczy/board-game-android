@@ -18,7 +18,7 @@ fun BoardGameListScreen(
     when (uiState) {
         BoardGameListUiState.Loading -> Loading()
         BoardGameListUiState.Success -> BoardGameListBody(
-            list = boardGameList,
+            boardGameList = boardGameList,
             onItemClick = { id, isFavorite ->
                 viewModel.rateBoardGameItem(id, isFavorite)
             }
