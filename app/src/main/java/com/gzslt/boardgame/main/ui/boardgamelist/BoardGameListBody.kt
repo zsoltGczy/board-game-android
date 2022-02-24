@@ -9,15 +9,14 @@ import com.gzslt.boardgame.main.model.BoardGameUiModel
 
 @Composable
 fun BoardGameListBody(
-    list: List<BoardGameUiModel>,
-    onItemClick: (String) -> Unit,
+    boardGameList: List<BoardGameUiModel>,
+    onItemClick: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier) {
-        // TODO
-        items(items = list) { model ->
-            BoardGameListItem(model) {
-                onItemClick(it)
+        items(items = boardGameList) { model ->
+            BoardGameListItem(model) { id, isFavorite ->
+                onItemClick(id, isFavorite)
             }
         }
     }

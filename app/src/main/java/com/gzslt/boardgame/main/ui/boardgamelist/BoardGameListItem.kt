@@ -28,13 +28,13 @@ import com.gzslt.boardgame.main.model.BoardGameUiModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BoardGameListItem(boardGameUiModel: BoardGameUiModel, onItemClick: (String) -> Unit) {
+fun BoardGameListItem(boardGameUiModel: BoardGameUiModel, onItemClick: (String, Boolean) -> Unit) {
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
             .fillMaxWidth(),
         elevation = 2.dp,
-        onClick = { onItemClick(boardGameUiModel.id) }
+        onClick = { onItemClick(boardGameUiModel.id, boardGameUiModel.isFavorite) }
     ) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Row {
@@ -93,7 +93,7 @@ private fun BoardGameListItemPreview() {
             imageResource = "https://uploads-ssl.webflow.com/61980fb98326045a5690d1df/61dbfe6da3d9865d2eb4510b_crown_of_emara.jpg",
             true,
         ),
-    ) {
+    ) { _, _ ->
         // no-op
     }
 }

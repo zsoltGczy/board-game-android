@@ -16,18 +16,20 @@ fun BoardGameListScreen(
     val boardGameList: List<BoardGameUiModel> by viewModel.boardGameListFlow.collectAsState(listOf())
 
     when (uiState) {
+        BoardGameListUiState.Loading -> Loading()
+        BoardGameListUiState.Success -> BoardGameListBody(
+            boardGameList = boardGameList,
+            onItemClick = { id, isFavorite ->
+                viewModel.rateBoardGameItem(id, isFavorite)
+            }
+        )
+        BoardGameListUiState.NetworkError -> ErrorBody(
+            message = "No internet connection. Turn on wifi or mobile data."
+        ) {
+            viewModel.fetchBoardGameList()
+        }
         BoardGameListUiState.Error -> ErrorBody(message = "Something went wrong") {
             viewModel.fetchBoardGameList()
         }
-        BoardGameListUiState.Loading -> Loading()
-        BoardGameListUiState.NetworkError -> ErrorBody(message = "No internet connection. Turn on wifi or mobile data.") {
-            viewModel.fetchBoardGameList()
-        }
-        BoardGameListUiState.Success -> BoardGameListBody(
-            list = boardGameList,
-            onItemClick = {
-                viewModel.addItemToFavorites(it)
-            }
-        )
     }
 }
